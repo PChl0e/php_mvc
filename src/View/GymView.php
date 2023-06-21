@@ -19,37 +19,43 @@ class GymView
         $address = $this->viewModel->getAddress();
         $openingHours = $this->viewModel->getOpeningHours();
 
-        echo "Gym Name: $gymName\n";
-        echo "Address: $address\n";
-        echo "Opening Hours: $openingHours\n";
-        echo "\n";
+        echo "<div>";
+        echo "<p>Gym : <strong>$gymName </strong>";
+        echo " - $address - ";
+        echo "<i> $openingHours </i></p>";
+        echo "</div>";
     }
 
     public function displayMembers()
     {
         $members = $this->viewModel->getMembers();
 
-        echo "Members:\n";
+        echo "<div>";
+        echo "<strong>Members:</strong>";
+        echo "<ul>";
         foreach ($members as $member) {
-            echo "- Name: " . $member->getName() . "\n";
-            echo "  Email: " . $member->getEmail() . "\n";
-            echo "  Age: " . $member->getAge() . "\n";
-            echo "  Membership Status: " . ($member->getMembership()->getStatus() ? 'Active' : 'Inactive') . "\n";
-            echo "  Membership Price: " . $member->getMembership()->getPrice() . "\n";
-            echo "\n";
+            echo "<li>";
+            echo "<p>" . $member->getName() . " - " . $member->getEmail() . " - " . $member->getAge() . "</p>";
+            echo "<p>" . ($member->getMembership()->getStatus() ? 'Active' : 'Inactive') . " - " . $member->getMembership()->getPrice() . "</p>";
+            echo "</li>";
         }
+        echo "</ul>";
+        echo "</div>";
     }
 
     public function displayClasses()
     {
         $classes = $this->viewModel->getClasses();
 
-        echo "Classes:\n";
+        echo "<div>";
+        echo "<strong>Classes:</strong>";
+        echo "<ul>";
         foreach ($classes as $class) {
-            echo "- Name: " . $class->getName() . "\n";
-            echo "  Instructor: " . $class->getInstructor() . "\n";
-            echo "  Schedule: " . $class->getSchedule() . "\n";
-            echo "\n";
+            echo "<li>";
+            echo "<p>" . $class->getName() . " - " . $class->getInstructor() . " - " . $class->getSchedule() . "</p>";
+            echo "</li>";
         }
+        echo "</ul>";
+        echo "</div>";
     }
 }

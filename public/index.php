@@ -1,7 +1,6 @@
 <?php
 require_once __DIR__ . '/../vendor/autoload.php';
 
-// Initialisation de certaines choses
 use App\Controller\ContactController;
 use App\Controller\IndexController;
 use App\Routing\RouteNotFoundException;
@@ -17,6 +16,8 @@ use App\Controller\GymController;
 use App\Model\Classe;
 use App\Model\Membership;
 use App\Model\Member;
+use App\View\FormView;
+use App\ViewModel\FormViewModel;
 
 $dotenv = new Dotenv();
 $dotenv->loadEnv(__DIR__ . '/../.env');
@@ -84,21 +85,24 @@ var_dump($_SERVER['REQUEST_URI']);
 $gymModel = new Gym("Fitness Center", "123 Main Street", "9:00 AM - 9:00 PM");
 $gymViewModel = new GymViewModel($gymModel);
 $gymView = new GymView($gymViewModel);
-$gymController = new GymController($gymViewModel);
-
-$membership1 = new Membership(true, "35$/month");
-$member1 = new Member("John Doe", "jdoe@gmailcom", 34, $membership1);
-$membership2 = new Membership(false, "25$/month");
-$member2 = new Member("Jane Smith", "jdoe@gmailcom", 19, $membership2);
-
-$gymController->addMember($member1);
-$gymController->addMember($member2);
 
 $class1 = new Classe("Yoga Class", "Alice Johnson", "Monday, Wednesday, Friday 6:00 PM");
 $class2 = new Classe("Spin Class", "Bob Thompson", "Tuesday, Thursday 7:00 AM");
 
-$gymController->addClass($class1);
-$gymController->addClass($class2);
+$gymViewModel->addClass($class1);
+$gymViewModel->addClass($class2);
+
+$formViewModel = new FormViewModel([]);
+$formView = new FormView();
+
+$formView->renderForm();
+$values = $formViewModel->processForm();
+
+if (!empty($values)) {
+    $membershipNew = new Membership(true, $values['subscription'] . "$/month");
+    $memberNew = new Member($values['name'], $values['email'], $values['age'], $membershipNew);
+    $gymViewModel->addMember($memberNew);
+}
 
 $gymView->displayGymInfo();
 $gymView->displayMembers();
