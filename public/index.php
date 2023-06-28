@@ -23,10 +23,7 @@ $dotenv = new Dotenv();
 $dotenv->loadEnv(__DIR__ . '/../.env');
 
 // DB
-/*
-    $dsn = 'mysql:dbname=su_2023_php_mvc;host=host.docker.internal;charset=utf8mb4';
-    $user = 'root';
-    $password = '';*/
+
 /*[
     'DB_HOST' => $host,
     'DB_PORT' => $port,
