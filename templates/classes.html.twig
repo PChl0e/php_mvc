@@ -1,0 +1,10 @@
+<div>
+    <strong>Classes:</strong>
+    <ul>
+    {% for class in classes %}
+        <li>
+            <p>{{ class.getName() }} - {{ class.getInstructor() }} - {{ class.getSchedule() }}</p>
+        </li>
+    {% endfor %}
+    </ul>
+</div>
