@@ -11,3 +11,7 @@ Le premier problème rencontré est la compréhension du modèle MVVM, en effet 
 ## Notre implémentation
 
 On a choisit de développer ce modèle sur la notion de salle de sport. Nous avons implémenté un modèle représentant une salle de sport qui porte ces attributs qui la définit. Puis nous avons ajouter une Vue et une VueModèle, notre VueModèle porte un attribut de notre Modèle Gym, et c'est notre Vue qui va porter la VueModèle pour ensuite afficher les infos nécessaires
+
+-Gestion BDD
+-Utiliser twig pour les templates
+-class abstraite form puis faire des classe spécifique qui étendent de cette classe

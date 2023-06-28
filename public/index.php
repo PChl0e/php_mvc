@@ -23,11 +23,7 @@ $dotenv = new Dotenv();
 $dotenv->loadEnv(__DIR__ . '/../.env');
 
 // DB
-/*
-    $dsn = 'mysql:dbname=su_2023_php_mvc;host=host.docker.internal;charset=utf8mb4';
-    $user = 'root';
-    $password = '';*/
-/*[
+[
     'DB_HOST' => $host,
     'DB_PORT' => $port,
     'DB_NAME' => $dbname,
@@ -36,18 +32,17 @@ $dotenv->loadEnv(__DIR__ . '/../.env');
     'DB_PASSWORD' => $password
 ] = $_ENV;
 //parse_ini_file(DIR . '/../conf/db.ini');
-$dsn = "mysql:dbname = $dbname;host=$host;charset=$charset";
+$dsn = "mysql:dbname=$dbname;host=$host;charset=$charset";
 
 try {
     $pdo = new PDO($dsn, $user, $password);
-    var_dump($pdo);
 } catch (PDOException $e) {
     echo sprintf('Erreur lors de la connexion à la base de donnée : ', $e->getMessage());
     exit;
 }
 
 //Twig 
-$loader = new FilesystemLoader(__DIR__.'/../templates/');
+$loader = new FilesystemLoader(__DIR__ . '/../templates/');
 $twig = new Environment($loader, [
     'debug' => $_ENV['APP_ENV'] == 'dev',
     'cache' => __DIR__ . '/../var/twig/'
@@ -78,11 +73,8 @@ try {
     echo "Page not found";
 }
 
-var_dump($router);
-var_dump($_SERVER['REQUEST_URI']);
-*/
-
 $gymModel = new Gym("Fitness Center", "123 Main Street", "9:00 AM - 9:00 PM");
+
 $gymViewModel = new GymViewModel($gymModel);
 $gymView = new GymView($gymViewModel);
 
@@ -102,6 +94,25 @@ if (!empty($values)) {
     $membershipNew = new Membership(true, $values['subscription'] . "$/month");
     $memberNew = new Member($values['name'], $values['email'], $values['age'], $membershipNew);
     $gymViewModel->addMember($memberNew);
+
+    $sqlQuery1 = "INSERT INTO membership (status, price) VALUES( :status, :price)";
+    $membershipStatement = $pdo->prepare($sqlQuery1);
+    $membershipStatement->execute([
+        'status' => 1,
+        'price' => $values['subscription']
+    ]);
+
+    $membershipId = $pdo->lastInsertId();
+
+    $sqlQuery2 = "INSERT INTO member (name, email, age, id_membership) VALUES( :name, :email, :age, :id_membership)";
+    $memberStatement = $pdo->prepare($sqlQuery2);
+    $memberStatement->execute([
+        'name' => $values['name'],
+        'email' => $values['email'],
+        'age' => $values['age'],
+        'id_membership' => $membershipId
+    ]);
+    
 }
 
 $gymView->displayGymInfo();
