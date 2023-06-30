@@ -2,49 +2,86 @@
 
 namespace App\ViewModel;
 
+use App\Model\Classe;
+use App\Model\ClasseModel;
 use App\Model\Gym;
+use App\Model\GymModel;
+use App\Model\Member;
+use App\Model\MemberModel;
+use App\Model\Membership;
+use App\Model\MembershipModel;
+use PDO;
 
 class GymViewModel
 {
-    private $gymModel;
+    private GymModel $gymModel;
+    private MemberModel $memberModel;
+    private MembershipModel $membershipModel;
+    private ClasseModel $classModel;
 
-    public function __construct(Gym $gymModel)
+    public function __construct(PDO $pdo)
     {
-        $this->gymModel = $gymModel;
+        $this->gymModel = new GymModel($pdo);
+        $this->memberModel = new MemberModel($pdo);
+        $this->membershipModel = new MembershipModel($pdo);
+        $this->classModel = new ClasseModel($pdo);
     }
 
-    public function getGymName()
+    /**
+     * Sauvegarde d'un member
+     * @param Member $member
+     * @param integer $idMembership
+     * @return void
+     */
+    public function registerMember(Member $member, int $idMembership)
     {
-        return $this->gymModel->getName();
+        $this->memberModel->registerMember($member, $idMembership);
     }
 
-    public function getAddress()
+    /**
+     * Sauvegarde un abonnement
+     * @param Membership $membership
+     * @param integer $idGym
+     * @return integer Identifiant de l'abonnement
+     */
+    public function registerMembership(Membership $membership, int $idGym): int
     {
-        return $this->gymModel->getAddress();
+        return $this->membershipModel->registerMembership($membership, $idGym);
     }
 
-    public function getOpeningHours()
+    /**
+     * Sauvegarde une salle de sport
+     * @param Gym $gym
+     * @return integer Identifiant de la salle de sport 
+     */
+    public function registerGym(Gym $gym): int
     {
-        return $this->gymModel->getOpeningHours();
+        return $this->gymModel->registerGym($gym);
     }
 
-    public function addMember($member)
+    /**
+     * Sauvegarde un cours
+     * @param Classe $classe
+     * @param integer $idGym
+     * @return void
+     */
+    public function registerClass(Classe $classe, int $idGym)
     {
-        $this->gymModel->addMember($member);
+        $this->classModel->registerClass($classe, $idGym);
     }
 
-    public function getMembers()
+    public function getClasses(): array
     {
-        return $this->gymModel->getMembers();
+        return $this->classModel->getClasses();
     }
 
-    public function addClass($class)
+    public function getMembers(): array
     {
-        $this->gymModel->addClass($class);
+        return $this->memberModel->getMembers();
     }
 
-    public function getClasses()
+    public function getGyms(): array
     {
-        return $this->gymModel->getClasses();
+        return $this->gymModel->getGyms();
     }
 }

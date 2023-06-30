@@ -14,8 +14,12 @@ use App\ViewModel\GymViewModel;
 use App\View\GymView;
 use App\Controller\GymController;
 use App\Model\Classe;
+use App\Model\ClasseModel;
+use App\Model\GymModel;
 use App\Model\Membership;
 use App\Model\Member;
+use App\Model\MemberModel;
+use App\Model\MembershipModel;
 use App\View\FormView;
 use App\ViewModel\FormViewModel;
 
@@ -73,48 +77,36 @@ try {
     echo "Page not found";
 }
 
-$gymModel = new Gym("Fitness Center", "123 Main Street", "9:00 AM - 9:00 PM");
+/**Sauvegarde de la salle de sport */
+$gymViewModel = new GymViewModel($pdo);
+/*$gym = new Gym("Fitness Center", "123 Main Street", "9:00 AM - 9:00 PM");
 
-$gymViewModel = new GymViewModel($gymModel);
-$gymView = new GymView($gymViewModel);
+$idGym = $gymViewModel->registerGym($gym);*/
 
-$class1 = new Classe("Yoga Class", "Alice Johnson", "Monday, Wednesday, Friday 6:00 PM");
+/**Sauvegarde des cours */
+/*$class1 = new Classe("Yoga Class", "Alice Johnson", "Monday, Wednesday, Friday 6:00 PM");
 $class2 = new Classe("Spin Class", "Bob Thompson", "Tuesday, Thursday 7:00 AM");
+$gymViewModel->registerClass($class1, $idGym);
+$gymViewModel->registerClass($class2, $idGym);*/
 
-$gymViewModel->addClass($class1);
-$gymViewModel->addClass($class2);
-
+/**Affichage et traitement du formulaire */
 $formViewModel = new FormViewModel([]);
 $formView = new FormView();
 
 $formView->renderForm();
 $values = $formViewModel->processForm();
 
+/**Ajout d'un membre */
 if (!empty($values)) {
     $membershipNew = new Membership(true, $values['subscription'] . "$/month");
-    $memberNew = new Member($values['name'], $values['email'], $values['age'], $membershipNew);
-    $gymViewModel->addMember($memberNew);
+    $idMembership = $gymViewModel->registerMembership($membershipNew, 1);
 
-    $sqlQuery1 = "INSERT INTO membership (status, price) VALUES( :status, :price)";
-    $membershipStatement = $pdo->prepare($sqlQuery1);
-    $membershipStatement->execute([
-        'status' => 1,
-        'price' => $values['subscription']
-    ]);
-
-    $membershipId = $pdo->lastInsertId();
-
-    $sqlQuery2 = "INSERT INTO member (name, email, age, id_membership) VALUES( :name, :email, :age, :id_membership)";
-    $memberStatement = $pdo->prepare($sqlQuery2);
-    $memberStatement->execute([
-        'name' => $values['name'],
-        'email' => $values['email'],
-        'age' => $values['age'],
-        'id_membership' => $membershipId
-    ]);
-    
+    $memberNew = new Member($values['name'], $values['email'], $values['age']);
+    $gymViewModel->registerMember($memberNew, $idMembership);
 }
 
+/**Affichage des données */
+$gymView = new GymView($gymViewModel);
 $gymView->displayGymInfo();
 $gymView->displayMembers();
 $gymView->displayClasses();

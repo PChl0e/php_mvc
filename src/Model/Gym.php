@@ -7,7 +7,8 @@ use App\Model\Classe;
 
 class Gym
 {
-    private $gymName;
+    private $id;
+    private $name;
     private $address;
     private $openingHours;
     private $members;
@@ -15,16 +16,31 @@ class Gym
 
     public function __construct($gymName, $address, $openingHours)
     {
-        $this->gymName = $gymName;
+        $this->name = $gymName;
         $this->address = $address;
         $this->openingHours = $openingHours;
         $this->members = [];
         $this->classes = [];
     }
 
+    public function setId(int $id)
+    {
+        $this->id = $id;
+    }
+
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    public function setName(string $name)
+    {
+        $this->name = $name;
+    }
+
     public function getName()
     {
-        return $this->gymName;
+        return $this->name;
     }
 
     public function getAddress()

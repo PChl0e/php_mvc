@@ -4,6 +4,7 @@ namespace App\Model;
 
 class Classe
 {
+    private int $id;
     private string $name;
     private string $instructor;
     private string $schedule;
@@ -13,6 +14,16 @@ class Classe
         $this->name = $name;
         $this->instructor = $instructor;
         $this->schedule = $schedule;
+    }
+
+    public function setId(int $id)
+    {
+        $this->id = $id;
+    }
+
+    public function getId()
+    {
+        return $this->id;
     }
 
     public function getName()

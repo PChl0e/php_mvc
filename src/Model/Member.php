@@ -4,17 +4,27 @@ namespace App\Model;
 
 class Member
 {
+    private int $id;
     private string $name;
     private string $email;
     private int $age;
     private Membership $membership;
 
-    public function __construct($name, $email, $age, $membership)
+    public function __construct($name, $email, $age)
     {
         $this->name = $name;
         $this->email = $email;
         $this->age = $age;
-        $this->membership = $membership;
+    }
+
+    public function setId(int $id)
+    {
+        $this->id = $id;
+    }
+
+    public function getId()
+    {
+        return $this->id;
     }
 
     public function getName()
