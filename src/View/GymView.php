@@ -20,14 +20,10 @@ class GymView
 
     public function displayGymInfo()
     {
-        $gymName = $this->viewModel->getGymName();
-        $address = $this->viewModel->getAddress();
-        $openingHours = $this->viewModel->getOpeningHours();
+        $gym = $this->viewModel->getGyms();
 
         echo $this->twig->render('gym_info.html.twig', [
-            'gymName' => $gymName,
-            'address' => $address,
-            'openingHours' => $openingHours,
+            'gym' => $gym[0],
         ]);
     }
 
