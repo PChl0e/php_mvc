@@ -3,28 +3,28 @@
 namespace App\ViewModel;
 
 use App\Model\Classe;
-use App\Model\ClasseModel;
 use App\Model\Gym;
-use App\Model\GymModel;
 use App\Model\Member;
-use App\Model\MemberModel;
 use App\Model\Membership;
-use App\Model\MembershipModel;
+use App\Repository\ClasseRepository;
+use App\Repository\GymRepository;
+use App\Repository\MemberRepository;
+use App\Repository\MembershipRepository;
 use PDO;
 
 class GymViewModel
 {
-    private GymModel $gymModel;
-    private MemberModel $memberModel;
-    private MembershipModel $membershipModel;
-    private ClasseModel $classModel;
+    private GymRepository $gymRepository;
+    private MemberRepository $memberRepository;
+    private MembershipRepository $membershipRepository;
+    private ClasseRepository $classRepository;
 
     public function __construct(PDO $pdo)
     {
-        $this->gymModel = new GymModel($pdo);
-        $this->memberModel = new MemberModel($pdo);
-        $this->membershipModel = new MembershipModel($pdo);
-        $this->classModel = new ClasseModel($pdo);
+        $this->gymRepository = new GymRepository($pdo);
+        $this->memberRepository = new MemberRepository($pdo);
+        $this->membershipRepository = new MembershipRepository($pdo);
+        $this->classRepository = new ClasseRepository($pdo);
     }
 
     /**
@@ -35,7 +35,7 @@ class GymViewModel
      */
     public function registerMember(Member $member, int $idMembership)
     {
-        $this->memberModel->registerMember($member, $idMembership);
+        $this->memberRepository->registerMember($member, $idMembership);
     }
 
     /**
@@ -46,7 +46,7 @@ class GymViewModel
      */
     public function registerMembership(Membership $membership, int $idGym): int
     {
-        return $this->membershipModel->registerMembership($membership, $idGym);
+        return $this->membershipRepository->registerMembership($membership, $idGym);
     }
 
     /**
@@ -56,7 +56,7 @@ class GymViewModel
      */
     public function registerGym(Gym $gym): int
     {
-        return $this->gymModel->registerGym($gym);
+        return $this->gymRepository->registerGym($gym);
     }
 
     /**
@@ -67,21 +67,30 @@ class GymViewModel
      */
     public function registerClass(Classe $classe, int $idGym)
     {
-        $this->classModel->registerClass($classe, $idGym);
+        $this->classRepository->registerClass($classe, $idGym);
     }
 
-    public function getClasses(): array
+    public function getClasses(int $idGym): array
     {
-        return $this->classModel->getClasses();
+        return $this->classRepository->getClasses($idGym);
     }
 
-    public function getMembers(): array
+    /**
+     * Récupère les membres d'une salle de sport
+     * @return array
+     */
+    public function getMembers(int $idGym): array
     {
-        return $this->memberModel->getMembers();
+        return $this->memberRepository->getMembers($idGym);
     }
 
-    public function getGyms(): array
+    /**
+     * Récupère une salle de sport via son identifiant
+     * @param integer $id
+     * @return Gym
+     */
+    public function getGym(int $id): Gym
     {
-        return $this->gymModel->getGyms();
+        return $this->gymRepository->getOneById($id);
     }
 }

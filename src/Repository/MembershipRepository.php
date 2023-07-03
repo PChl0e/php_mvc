@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Model;
+namespace App\Repository;
 
+use App\Model\Membership;
 use PDO;
 
-class MembershipModel
+class MembershipRepository
 {
     private $db;
 
@@ -13,7 +14,13 @@ class MembershipModel
         $this->db = $db;
     }
 
-    public function registerMembership(Membership $membership, int $idGym)
+    /**
+     * Sauvegarde un abonnement
+     * @param Membership $membership
+     * @param integer $idGym
+     * @return integer
+     */
+    public function registerMembership(Membership $membership, int $idGym): int
     {
         $status = $membership->getStatus();
         $price = $membership->getPrice();
@@ -31,6 +38,11 @@ class MembershipModel
         return $membership->getId();
     }
 
+    /**
+     * Supprime un abonnement
+     * @param Membership $membership
+     * @return void
+     */
     public function deleteMembership(Membership $membership)
     {
         $id = $membership->getId();
@@ -40,21 +52,5 @@ class MembershipModel
         $stmt->execute([
             'id' => $id
         ]);
-    }
-
-    public function getMemberships()
-    {
-        $query = "SELECT * FROM membership";
-        $stmt = $this->db->query($query);
-
-        $memberships = [];
-
-        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            $membership = new Membership($row['status'], $row['price']);
-            $membership->setId($row['id']);
-            $memberships[] = $membership;
-        }
-
-        return $memberships;
     }
 }

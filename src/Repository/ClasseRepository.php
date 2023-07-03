@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Model;
+namespace App\Repository;
 
+use App\Model\Classe;
 use PDO;
 
-class ClasseModel
+class ClasseRepository
 {
     private $db;
 
@@ -13,6 +14,12 @@ class ClasseModel
         $this->db = $db;
     }
 
+    /**
+     * Enregistre un cours en BDD
+     * @param Classe $class
+     * @param integer $idGym
+     * @return void
+     */
     public function registerClass(Classe $class, int $idGym)
     {
         $nom = $class->getName();
@@ -32,6 +39,11 @@ class ClasseModel
         $class->setId($this->db->lastInsertId());
     }
 
+    /**
+     * Supprime un cours
+     * @param Classe $class
+     * @return void
+     */
     public function deleteClass(Classe $class)
     {
         $id = $class->getId();
@@ -43,9 +55,14 @@ class ClasseModel
         ]);
     }
 
-    public function getClasses()
+    /**
+     * Retourne la liste des cours d'une salle de sport
+     * @param integer $idGym
+     * @return array
+     */
+    public function getClasses(int $idGym): array
     {
-        $query = "SELECT * FROM class";
+        $query = "SELECT * FROM class WHERE id_gym = " . $idGym;
         $stmt = $this->db->query($query);
 
         $classes = [];

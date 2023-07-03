@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Model;
+namespace App\Repository;
 
+use App\Model\Gym;
 use PDO;
 
-class GymModel
+class GymRepository
 {
     private $db;
 
@@ -13,7 +14,12 @@ class GymModel
         $this->db = $db;
     }
 
-    public function registerGym(Gym $gym)
+    /**
+     * Enregistre une salle de sport en BDD
+     * @param Gym $gym
+     * @return int
+     */
+    public function registerGym(Gym $gym): int
     {
         $nom = $gym->getName();
         $adress = $gym->getAddress();
@@ -32,6 +38,11 @@ class GymModel
         return $gym->getId();
     }
 
+    /**
+     * Supprime une salle de sport
+     * @param Gym $gym
+     * @return void
+     */
     public function deleteGym(Gym $gym)
     {
         $id = $gym->getId();
@@ -43,6 +54,10 @@ class GymModel
         ]);
     }
 
+    /**
+     * Retourne la liste des salles de sport
+     * @return void
+     */
     public function getGyms()
     {
         $query = "SELECT * FROM gym";
@@ -57,5 +72,23 @@ class GymModel
         }
 
         return $gyms;
+    }
+
+    /**
+     * Retourne une salle de sport via son identifiant
+     * @param integer $id
+     * @return Gym
+     */
+    public function getOneById(int $id): Gym
+    {
+        $query = "SELECT * FROM gym WHERE id =" . $id;
+        $stmt = $this->db->query($query);
+
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $gym = new Gym($row['name'], $row['adress'], $row['opening_hours']);
+            $gym->setId($row['id']);
+        }
+
+        return $gym;
     }
 }

@@ -20,16 +20,16 @@ class GymView
 
     public function displayGymInfo()
     {
-        $gym = $this->viewModel->getGyms();
+        $gym = $this->viewModel->getGym(1);
 
         echo $this->twig->render('gym_info.html.twig', [
-            'gym' => $gym[0],
+            'gym' => $gym,
         ]);
     }
 
     public function displayMembers()
     {
-        $members = $this->viewModel->getMembers();
+        $members = $this->viewModel->getMembers(1);
 
         echo $this->twig->render('members.html.twig', [
             'members' => $members,
@@ -38,7 +38,7 @@ class GymView
 
     public function displayClasses()
     {
-        $classes = $this->viewModel->getClasses();
+        $classes = $this->viewModel->getClasses(1);
 
         echo $this->twig->render('classes.html.twig', [
             'classes' => $classes,

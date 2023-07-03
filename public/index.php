@@ -62,13 +62,6 @@ $router->addRoute(
     IndexController::class,
     'home'
 );
-$router->addRoute(
-    'contact_page',
-    '/contact',
-    'GET',
-    ContactController::class,
-    'contact'
-);
 
 try {
     $router->execute($_SERVER['REQUEST_URI'], $_SERVER['REQUEST_METHOD']);

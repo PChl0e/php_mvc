@@ -1,10 +1,12 @@
 <?php
 
-namespace App\Model;
+namespace App\Repository;
 
+use App\Model\Member;
+use App\Model\Membership;
 use PDO;
 
-class MemberModel
+class MemberRepository
 {
     private $db;
 
@@ -13,6 +15,12 @@ class MemberModel
         $this->db = $db;
     }
 
+    /**
+     * Enregistre un membre en BDD
+     * @param Member $member
+     * @param integer $idMembership
+     * @return void
+     */
     public function registerMember(Member $member, int $idMembership)
     {
         $nom = $member->getName();
@@ -32,6 +40,11 @@ class MemberModel
         $member->setId($this->db->lastInsertId());
     }
 
+    /**
+     * Supptime un membre
+     * @param Member $member
+     * @return void
+     */
     public function deleteMember(Member $member)
     {
         $id = $member->getId();
@@ -43,9 +56,14 @@ class MemberModel
         ]);
     }
 
-    public function getMembers()
+    /**
+     * Retourne la liste des membres d'une salle de sport
+     * @param integer $idGym Identifiant de la salle de sport
+     * @return array
+     */
+    public function getMembers(int $idGym): array
     {
-        $query = "SELECT * FROM member";
+        $query = "SELECT * FROM `member` JOIN membership ON id_membership = membership.id WHERE membership.id_gym = " . $idGym;
         $stmt = $this->db->query($query);
 
         $members = [];
@@ -53,10 +71,7 @@ class MemberModel
         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
             $member = new Member($row['name'], $row['email'], $row['age']);
             $member->setId($row['id']);
-            $query = "SELECT * FROM membership WHERE id =" . $row['id_membership'];
-            $stmtMembership = $this->db->query($query);
-            $rowMembership = $stmtMembership->fetch(PDO::FETCH_ASSOC);
-            $member->setMembership(new Membership($rowMembership['status'], $rowMembership['price']));
+            $member->setMembership(new Membership($row['status'], $row['price']));
             $members[] = $member;
         }
 
