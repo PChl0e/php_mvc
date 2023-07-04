@@ -2,16 +2,13 @@
 
 namespace App\ViewModel;
 
-use App\Model\Form;
-use App\View\FormView;
-
-class FormViewModel
+abstract class FormViewModel
 {
-    private $formModel;
+    protected $formModel;
 
     public function __construct($formData)
     {
-        $this->formModel = new Form($formData);
+        $this->formModel = $this->createFormModel($formData);
     }
 
     public function processForm()
@@ -22,7 +19,7 @@ class FormViewModel
             $errorMessage = $this->validateFormData($formData);
 
             if ($errorMessage === '') {
-                $formModel = new Form($formData);
+                $formModel = $this->createFormModel($formData);
 
                 echo 'Succès';
                 return $formModel->getValues();
@@ -33,18 +30,7 @@ class FormViewModel
         }
     }
 
-    private function validateFormData($formData)
-    {
-        $errorMessage = '';
+    protected abstract function createFormModel($formData);
 
-        if (empty($formData['name']) || empty($formData['email']) || empty($formData['age']) || empty($formData['subscription'])) {
-            $errorMessage = 'Veuillez remplir tous les champs obligatoires.';
-        }
-
-        if (!is_numeric($formData['age']) || $formData['age'] <= 0) {
-            $errorMessage = 'L\'âge doit être un nombre positif.';
-        }
-
-        return $errorMessage;
-    }
+    protected abstract function validateFormData($formData);
 }
