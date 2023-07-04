@@ -6,6 +6,7 @@ use DateTime;
 
 class Membership
 {
+    private int $id;
     private bool $status;
     private string $price;
 
@@ -13,6 +14,16 @@ class Membership
     {
         $this->status = $status;
         $this->price = $price;
+    }
+
+    public function setId(int $id)
+    {
+        $this->id = $id;
+    }
+
+    public function getId()
+    {
+        return $this->id;
     }
 
     public function getStatus()

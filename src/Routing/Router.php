@@ -45,7 +45,7 @@ class Router
         $route = $this->getRoute($requestUri, $httpMethod);
 
         if ($route === null) {
-            throw new RouteNotFoundException($requestUri, $httpMethod);
+            throw new RouteNotFoundException($requestUri);
         }
 
         $controller = $route['controllerClass'];

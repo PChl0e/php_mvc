@@ -2,49 +2,95 @@
 
 namespace App\ViewModel;
 
+use App\Model\Classe;
 use App\Model\Gym;
+use App\Model\Member;
+use App\Model\Membership;
+use App\Repository\ClasseRepository;
+use App\Repository\GymRepository;
+use App\Repository\MemberRepository;
+use App\Repository\MembershipRepository;
+use PDO;
 
 class GymViewModel
 {
-    private $gymModel;
+    private GymRepository $gymRepository;
+    private MemberRepository $memberRepository;
+    private MembershipRepository $membershipRepository;
+    private ClasseRepository $classRepository;
 
-    public function __construct(Gym $gymModel)
+    public function __construct(PDO $pdo)
     {
-        $this->gymModel = $gymModel;
+        $this->gymRepository = new GymRepository($pdo);
+        $this->memberRepository = new MemberRepository($pdo);
+        $this->membershipRepository = new MembershipRepository($pdo);
+        $this->classRepository = new ClasseRepository($pdo);
     }
 
-    public function getGymName()
+    /**
+     * Sauvegarde d'un member
+     * @param Member $member
+     * @param integer $idMembership
+     * @return void
+     */
+    public function registerMember(Member $member, int $idMembership)
     {
-        return $this->gymModel->getName();
+        $this->memberRepository->registerMember($member, $idMembership);
     }
 
-    public function getAddress()
+    /**
+     * Sauvegarde un abonnement
+     * @param Membership $membership
+     * @param integer $idGym
+     * @return integer Identifiant de l'abonnement
+     */
+    public function registerMembership(Membership $membership, int $idGym): int
     {
-        return $this->gymModel->getAddress();
+        return $this->membershipRepository->registerMembership($membership, $idGym);
     }
 
-    public function getOpeningHours()
+    /**
+     * Sauvegarde une salle de sport
+     * @param Gym $gym
+     * @return integer Identifiant de la salle de sport 
+     */
+    public function registerGym(Gym $gym): int
     {
-        return $this->gymModel->getOpeningHours();
+        return $this->gymRepository->registerGym($gym);
     }
 
-    public function addMember($member)
+    /**
+     * Sauvegarde un cours
+     * @param Classe $classe
+     * @param integer $idGym
+     * @return void
+     */
+    public function registerClass(Classe $classe, int $idGym)
     {
-        $this->gymModel->addMember($member);
+        $this->classRepository->registerClass($classe, $idGym);
     }
 
-    public function getMembers()
+    public function getClasses(int $idGym): array
     {
-        return $this->gymModel->getMembers();
+        return $this->classRepository->getClasses($idGym);
     }
 
-    public function addClass($class)
+    /**
+     * Récupère les membres d'une salle de sport
+     * @return array
+     */
+    public function getMembers(int $idGym): array
     {
-        $this->gymModel->addClass($class);
+        return $this->memberRepository->getMembers($idGym);
     }
 
-    public function getClasses()
+    /**
+     * Récupère une salle de sport via son identifiant
+     * @param integer $id
+     * @return Gym
+     */
+    public function getGym(int $id): Gym
     {
-        return $this->gymModel->getClasses();
+        return $this->gymRepository->getOneById($id);
     }
 }
