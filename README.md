@@ -1,4 +1,5 @@
 # Projet PHP
+PISCERI Chloé, YAROMISHYAN Michael
 
 ## Modèle MVVM
 
@@ -10,7 +11,9 @@ L'un des avantages majeurs de l'utilisation du modèle MVVM est sa capacité à 
 
 ### Première problématique
 
-Lorsque nous avons abordé la restructuration du modèle MVC vers le modèle MVVM, nous avons été confrontés à une première problémtique : la compréhension de ce dernier. Michaël possédait une expérience avec le modèle MVVM grâce à son travail en entreprise, tandis que Chloé n'était pas familière avec ce modèle. Par conséquent, Chloé a dû se documenter et se familiariser avec les principes du modèle MVVM afin de pouvoir effectuer le travail demandé. Elle a pris le temps de lire des ressources en ligne, des articles et des tutoriels pour comprendre les concepts et les mécanismes de ce modèle spécifique. Cela lui a permis d'acquérir les connaissances nécessaires pour aborder le développement selon le modèle MVVM. Au fur et à mesure de sa recherche et de sa compréhension, Chloé a pu appliquer les principes du modèle MVVM de manière appropriée dans notre projet. Notre équipe a pu travailler ensemble de manière efficace et réaliser avec succès la transition vers ce nouveau modèle.
+Lorsque nous avons abordé la restructuration du modèle MVC vers le modèle MVVM, nous avons été confrontés à une première problémtique : la compréhension de ce dernier. Michaël possédait une expérience avec le modèle MVVM grâce à son travail en entreprise, tandis que Chloé n'était pas familière avec ce modèle. 
+
+Par conséquent, Chloé a dû se documenter et se familiariser avec les principes du modèle MVVM afin de pouvoir effectuer le travail demandé. Elle a pris le temps de lire des ressources en ligne, des articles et des tutoriels pour comprendre les concepts et les mécanismes de ce modèle spécifique. Cela lui a permis d'acquérir les connaissances nécessaires pour aborder le développement selon le modèle MVVM. Au fur et à mesure de sa recherche et de sa compréhension, Chloé a pu appliquer les principes du modèle MVVM de manière appropriée dans notre projet. Notre équipe a pu travailler ensemble de manière efficace et réaliser avec succès la transition vers ce nouveau modèle.
 
 ## Notre base d'implémentation
 
@@ -24,14 +27,18 @@ Il est important de souligner que notre implémentation actuelle suppose la gest
 
 Initialement, nous étions incertains quant à l'emplacement approprié pour gérer nos données, que ce soit l'ajout d'un nouveau membre ou l'affichage des informations relatives à la salle de sport. Dans nos premières tentatives, nous avons créé une extension de nos modèles existants, mais cela a rapidement conduit à de la confusion. Nous avions une classe "Gym" qui représentait la table "gym" dans notre base de données, et une classe "GymModel" qui permettait de manipuler les données correspondantes. Cependant, cette approche nous a rapidement perdus.
 
-Pour améliorer à cette situation, nous avons décidé de mettre en place une couche supplémentaire appelée "Repository". Cette couche agit comme un lien entre notre modèle et notre ViewModel, et c'est elle qui est responsable de la manipulation des données. 
+Pour améliorer à cette situation, nous avons décidé de mettre en place une couche supplémentaire appelée "Repository". Cette couche agit comme un lien entre notre modèle et notre ViewModel, et c'est elle qui est responsable de la manipulation des données.
 La structure de notre implémentation a donc évolué pour ressembler à ceci : Model -> Repository -> ViewModel -> View.
 
 Maintenant, le modèle est responsable de la représentation des données et de la logique métier. Le repository, quant à lui, sert d'intermédiaire entre le modèle et le ViewModel, en fournissant des méthodes pour récupérer, enregistrer et manipuler les données. Le ViewModel utilise les fonctionnalités du repository pour obtenir les données nécessaires et les préparer pour l'affichage dans la vue.
 
 Cette nouvelle structure nous a permis de mieux organiser notre code et de clarifier les responsabilités de chaque couche. Elle nous a également offert une meilleure séparation des préoccupations et une meilleure maintenabilité. Nous avons revisité le modèle MVVM.
 
-## La gestion de formulaire (troisième problémtique)
+#### Base de données
+
+Vous trouverez un fichier sql "su_php_mvc.sql" qui est le code pour le création de notre base de données.
+
+## La gestion de formulaire (troisième problématique)
 
 La deuxième fonctionnalité que nous avons implémentée est la gestion des formulaires, dans le but de rendre notre gestion de salle de sport plus dynamique. Initialement, nous avons créé trois fichiers : FormViewModel, FormView et FormModel. Cependant, cette structure ne correspondait pas pleinement à notre objectif, car notre formulaire était spécifique à la gestion des membres.
 
@@ -41,7 +48,7 @@ Ainsi, nous avons introduit une structure de classe générique pour la gestion 
 
 Cette méthode nous permet de centraliser la logique de traitement des formulaires tout en conservant une flexibilité suffisante pour personnaliser le comportement en fonction des besoins spécifiques de chaque formulaire. Nous avons ainsi pu rendre notre gestion des formulaires plus efficace et maintenable, en évitant la duplication de code et en facilitant la gestion des différents formulaires de notre application de salle de sport.
 
-Par exemple, 
+Par exemple,
 
 ## L'affichage
 
@@ -51,4 +58,4 @@ Nous avons pu créer des modèles HTML dynamiques et réutilisables, en inséran
 
 ## Conclusion
 
-
+En conclusion, la transition vers le modèle MVVM dans notre projet PHP a apporté une meilleure séparation des responsabilités, une réutilisabilité du code et une flexibilité dans la conception de l'application. Malgré quelques problématiques, nous avons réussi à s'adapter et à travailler efficacement avec ce modèle. L'utilisation de la couche Repository a facilité la gestion des données, tandis que l'approche générique des formulaires a rendu leur gestion plus efficace. L'utilisation de Twig comme moteur de template a permis un affichage flexible et réutilisable. Dans l'ensemble, l'utilisation du modèle MVVM a contribué au succès de notre projet de gestion de salle de sport et nous a aidé dans notre apprentissage du PHP.

@@ -1,10 +1,10 @@
 <div>
-    <strong>Members:</strong>
+    <strong>Membres :</strong>
     <ul>
     {% for member in members %}
         <li>
             <p>{{ member.getName() }} - {{ member.getEmail() }} - {{ member.getAge() }}</p>
-            <p>{{ member.getMembership().getStatus() ? 'Active' : 'Inactive' }} - {{ member.getMembership().getPrice() }}</p>
+            <p>{{ member.getMembership().getStatus() ? 'Active' : 'Inactive' }} - {{ member.getMembership().getPrice() }}€</p>
         </li>
     {% endfor %}
     </ul>

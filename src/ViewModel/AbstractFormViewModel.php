@@ -2,7 +2,7 @@
 
 namespace App\ViewModel;
 
-abstract class FormViewModel
+abstract class AbstractFormViewModel
 {
     protected $formModel;
 
@@ -21,7 +21,7 @@ abstract class FormViewModel
             if ($errorMessage === '') {
                 $formModel = $this->Form($formData);
 
-                echo 'Succès';
+                echo '<i style="color:green;">Succès</i>';
                 return $formModel->getValues();
             } else {
                 echo $errorMessage;

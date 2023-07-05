@@ -21,7 +21,9 @@ use App\Model\Member;
 use App\Model\MemberModel;
 use App\Model\MembershipModel;
 use App\View\FormView;
+use App\View\MemberFormView;
 use App\ViewModel\FormViewModel;
+use App\ViewModel\MemberFormViewModel;
 
 $dotenv = new Dotenv();
 $dotenv->loadEnv(__DIR__ . '/../.env');
@@ -55,21 +57,12 @@ $twig = new Environment($loader, [
 // Appeler un routeur pour lui transférer la requête
 
 $router = new Router($twig);
-$router->addRoute(
-    'homepage',
-    '/',
-    'GET',
-    IndexController::class,
-    'home'
-);
 
 try {
     $router->execute($_SERVER['REQUEST_URI'], $_SERVER['REQUEST_METHOD']);
 } catch (RouteNotFoundException $ex) {
     http_response_code(404);
-    echo "Page not found";
 }
-
 
 $gymViewModel = new GymViewModel($pdo);
 
@@ -87,12 +80,13 @@ $gymViewModel->registerClass($class1, $idGym);
 $gymViewModel->registerClass($class2, $idGym);
 */
 
-/**Affichage et traitement du formulaire */
-$formViewModel = new FormViewModel([]);
-$formView = new FormView();
+// Utilisation de la classe MemberFormViewModel
+$memberFormViewModel = new MemberFormViewModel([]);
+$memberFormView = new MemberFormView();
 
-$formView->renderForm();
-$values = $formViewModel->processForm();
+/**Affichage formulaire */
+$memberFormView->renderForm();
+$values = $memberFormViewModel->processForm();
 
 /**Ajout d'un membre */
 if (!empty($values)) {

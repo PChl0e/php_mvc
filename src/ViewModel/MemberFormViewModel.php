@@ -2,13 +2,13 @@
 
 namespace App\ViewModel;
 
-use App\Model\Form;
+use App\Model\MemberForm;
 
-class AbsFormViewModel extends FormViewModel 
+class MemberFormViewModel extends AbstractFormViewModel
 {
     protected function Form($formData)
     {
-        return new Form($formData);
+        return new MemberForm($formData);
     }
 
     protected function validateFormData($formData)
@@ -26,23 +26,14 @@ class AbsFormViewModel extends FormViewModel
             }
         }
 
-        // Vérifier des règles de validation spécifiques pour chaque champ
         if ($errorMessage === '') {
-            foreach ($formData as $field => $value) {
-                $validationRule = $this->formModel->getValidationRule($field);
-
-                if ($validationRule === 'numeric' && (!is_numeric($value) || $value <= 0)) {
-                    $errorMessage = 'L\'âge doit être un nombre positif.';
-                    break;
-                }
+            if (!is_numeric($formData['age']) || $formData['age'] <= 0) {
+                $errorMessage = 'L\'âge doit être un nombre positif.';
+            }elseif($formData['age'] < 16){
+                $errorMessage = 'Désolé, vous devez au moins avoir 16 ans pour pouvoir vous inscrire.';
             }
         }
 
         return $errorMessage;
     }
 }
-
-
-// Utilisation de la classe MyFormViewModel
-$myFormViewModel = new AbsFormViewModel($formData);
-$myFormViewModel->processForm();

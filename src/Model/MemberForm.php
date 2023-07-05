@@ -2,7 +2,7 @@
 
 namespace App\Model;
 
-class Form
+class MemberForm
 {
 
     private string $name;
@@ -26,5 +26,10 @@ class Form
             'age' => $this->age,
             'subscription' => $this->subscription
         ];
+    }
+
+    public function getRequiredFields()
+    {
+        return ['name', 'email', 'age', 'subscription'];
     }
 }
