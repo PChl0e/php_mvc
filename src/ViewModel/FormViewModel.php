@@ -8,7 +8,7 @@ abstract class FormViewModel
 
     public function __construct($formData)
     {
-        $this->formModel = $this->createFormModel($formData);
+        $this->formModel = $this->Form($formData);
     }
 
     public function processForm()
@@ -19,7 +19,7 @@ abstract class FormViewModel
             $errorMessage = $this->validateFormData($formData);
 
             if ($errorMessage === '') {
-                $formModel = $this->createFormModel($formData);
+                $formModel = $this->Form($formData);
 
                 echo 'Succès';
                 return $formModel->getValues();
@@ -30,7 +30,7 @@ abstract class FormViewModel
         }
     }
 
-    protected abstract function createFormModel($formData);
+    protected abstract function Form($formData);
 
     protected abstract function validateFormData($formData);
 }

@@ -2,13 +2,13 @@
 
 namespace App\ViewModel;
 
-use App\Model\ContactForm;
+use App\Model\Form;
 
-class AbsFormViewModel extends FormViewModel
+class AbsFormViewModel extends FormViewModel 
 {
-    protected function createFormModel($formData)
+    protected function Form($formData)
     {
-        return new ContactForm($formData);
+        return new Form($formData);
     }
 
     protected function validateFormData($formData)
