@@ -48,8 +48,6 @@ Ainsi, nous avons introduit une structure de classe générique pour la gestion 
 
 Cette méthode nous permet de centraliser la logique de traitement des formulaires tout en conservant une flexibilité suffisante pour personnaliser le comportement en fonction des besoins spécifiques de chaque formulaire. Nous avons ainsi pu rendre notre gestion des formulaires plus efficace et maintenable, en évitant la duplication de code et en facilitant la gestion des différents formulaires de notre application de salle de sport.
 
-Par exemple,
-
 ## L'affichage
 
 Nous avons choisi d'utiliser Twig pour gérer nos différentes vues. Twig est un moteur de template qui offre de nombreuses fonctionnalités, telles que l'insertion de variables, de boucles et de conditions, ce qui facilite la création de modèles HTML dynamiques et réutilisables. Avec Twig, nous avons pu développer nos modèles de manière plus efficace et modulaire. Nous avons créé trois templates distincts pour afficher les différentes informations requises. Chaque template correspond à une vue spécifique de notre application. Grâce à Twig, nous pouvons insérer facilement des variables dynamiques dans nos templates, ce qui nous permet de rendre les vues plus flexibles et adaptées aux données.
