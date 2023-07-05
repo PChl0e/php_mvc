@@ -70,17 +70,22 @@ try {
     echo "Page not found";
 }
 
-/**Sauvegarde de la salle de sport */
-$gymViewModel = new GymViewModel($pdo);
-/*$gym = new Gym("Fitness Center", "123 Main Street", "9:00 AM - 9:00 PM");
 
-$idGym = $gymViewModel->registerGym($gym);*/
+$gymViewModel = new GymViewModel($pdo);
+
+/**Sauvegarde de la salle de sport */
+/*
+$gym = new Gym("Fitness Center", "123 Main Street", "9:00 AM - 9:00 PM");
+$idGym = $gymViewModel->registerGym($gym);
+*/
 
 /**Sauvegarde des cours */
-/*$class1 = new Classe("Yoga Class", "Alice Johnson", "Monday, Wednesday, Friday 6:00 PM");
+/*
+$class1 = new Classe("Yoga Class", "Alice Johnson", "Monday, Wednesday, Friday 6:00 PM");
 $class2 = new Classe("Spin Class", "Bob Thompson", "Tuesday, Thursday 7:00 AM");
 $gymViewModel->registerClass($class1, $idGym);
-$gymViewModel->registerClass($class2, $idGym);*/
+$gymViewModel->registerClass($class2, $idGym);
+*/
 
 /**Affichage et traitement du formulaire */
 $formViewModel = new FormViewModel([]);
